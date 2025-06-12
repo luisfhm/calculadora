@@ -35,8 +35,13 @@ def calcular_tenencia(estado, anio, valor, hibrido, es_nuevo=True):
             mensaje = f"Tenencia calculada con depreciación para auto modelo {anio}."
 
         # Posible exención por subsidio si valor <= 250,000 y anio >= 2019
-        if anio >= 2019 and valor <= 250000:
-            return 0, refrendo, "Exento de tenencia por subsidio si cumples con los requisitos adicionales."
+        if valor <= 250000:
+            mensaje = (
+                "Podrías ser exento de tenencia en CDMX si cumples con los requisitos administrativos: "
+                "ser persona física, sin adeudos, con tarjeta de circulación vigente, y pagar refrendo a tiempo."
+            )
+            return 0, refrendo, mensaje
+
 
     elif estado in ["edo. de méxico", "estado de méxico"]:
         if anio >= 2021 and valor <= 400000:
