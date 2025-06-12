@@ -19,6 +19,26 @@ if st.button("Calcular"):
     st.markdown("### 📑 Reporte detallado de tenencia")
     st.markdown(texto_reporte, unsafe_allow_html=True)
 
+    st.markdown("---")
+    st.markdown("### ❓ ¿Sabías que...")
+
+    import random
+
+    sabias_que = [
+        "En la **CDMX**, si tu auto cuesta menos de $250,000 pesos y no tienes adeudos, puedes obtener un **subsidio del 100%** en la tenencia.",
+        "Los autos **eléctricos** no pagan tenencia en casi ningún estado, pero sí deben cubrir el **refrendo**.",
+        "El **refrendo vehicular** es un pago anual obligatorio aunque no debas tenencia.",
+        "En algunos estados como **Querétaro**, los autos nuevos pagan menos tenencia el primer año por políticas locales.",
+        "Los autos con más de 10 años de antigüedad pagan una **tenencia simbólica** o incluso están **exentos** en ciertos estados.",
+        "Tener tu **tarjeta de circulación vigente** es requisito para acceder a subsidios en varios estados.",
+    ]
+
+    st.markdown("---")
+    st.markdown("### ❓ ¿Sabías que…?")
+    st.info(random.choice(sabias_que))
+
+
+
 
     st.markdown("---")
     st.markdown("¿Buscas seguro? [Cotiza con Rastreator.mx](https://www.rastreator.mx)")
