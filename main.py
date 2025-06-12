@@ -16,7 +16,9 @@ if st.button("Calcular"):
     st.markdown("---")
     st.markdown("### Detalle del cálculo")
     texto_reporte = reporte_tenencia(estado, anio_auto, valor_auto, es_hibrido)
-    st.text_area("Reporte detallado de tenencia", texto_reporte, height=300)
+    st.markdown("### 📑 Reporte detallado de tenencia")
+    st.markdown(texto_reporte, unsafe_allow_html=True)
+
 
     st.markdown("---")
     st.markdown("¿Buscas seguro? [Cotiza con Rastreator.mx](https://www.rastreator.mx)")

@@ -52,26 +52,37 @@ def calcular_tenencia(estado, anio, valor, hibrido):
 
 def reporte_tenencia(estado, anio, valor, hibrido):
     tenencia, refrendo, mensaje = calcular_tenencia(estado, anio, valor, hibrido)
-    
+
+    tipo_auto = "Híbrido/Eléctrico" if hibrido else "Convencional"
+    estado = estado.upper()
+
     reporte = f"""
----- Reporte de Tenencia Vehicular ----
+📋 **Resumen del Cálculo de Tenencia y Refrendo 2025**
 
-Estado: {estado}
-Año del vehículo: {anio}
-Valor del vehículo: ${valor:,.2f}
-Tipo: {"Híbrido/Eléctrico" if hibrido else "Convencional"}
+🔹 **Estado:** {estado}
+🔹 **Año del vehículo:** {anio}
+🔹 **Valor aproximado:** ${valor:,.2f} MXN
+🔹 **Tipo de vehículo:** {tipo_auto}
 
-Resultado:
-- Tenencia a pagar: ${tenencia:,.2f}
-- Refrendo a pagar: ${refrendo:,.2f}
+---
 
-Explicación:
+💵 **Cálculo estimado:**
+
+- **Tenencia a pagar:** ${tenencia:,.2f} MXN
+- **Refrendo a pagar:** ${refrendo:,.2f} MXN
+
+---
+
+📌 **Notas y consideraciones:**
+
 {mensaje}
 
-Notas:
-- El pago de tenencia debe realizarse entre enero y marzo de cada año.
-- El refrendo es un pago anual obligatorio, independiente de la tenencia.
-- En caso de subsidios o exenciones, sólo se paga el refrendo.
-- Este cálculo es aproximado y puede variar según disposiciones oficiales.
+- El pago de tenencia suele realizarse entre **enero y marzo** de cada año.
+- El **refrendo** es un pago anual obligatorio, incluso si no se paga tenencia.
+- Algunos estados ofrecen **subsidios o exenciones** si estás al corriente y cumples requisitos.
+- Esta herramienta es solo una estimación basada en criterios generales.
+
+👉 Verifica siempre con el sitio oficial de tu estado.
 """
     return reporte.strip()
+

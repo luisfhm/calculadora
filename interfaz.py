@@ -9,27 +9,28 @@ def mostrar_resultados(tenencia, refrendo, mensaje):
         st.info(mensaje)
 
 def entrada_usuario():
-    """
-    Interfaz para que el usuario ingrese datos del vehículo.
-    """
-    estado = st.selectbox("Selecciona tu estado", [
+    estado = st.selectbox("📍 Selecciona tu estado", [
         "CDMX", "Edo. de México", "Jalisco", "Nuevo León", "Querétaro", "Otro"
     ])
 
-    anio_auto = st.number_input("¿De qué año es tu auto?", min_value=2000, max_value=2025, value=2020)
+    anio_auto = st.number_input(
+        "📅 Año del vehículo", min_value=2000, max_value=2025, value=2020,
+        help="Año de fabricación o modelo del auto."
+    )
     
-    valor_auto = st.number_input("Valor aproximado del auto (MXN)", min_value=10000, value=200000, step=1000)
+    valor_auto = st.number_input(
+        "💰 Valor aproximado del auto (MXN)", min_value=10000, value=200000, step=1000,
+        help="Consulta el valor comercial estimado de tu auto."
+    )
     st.markdown(
-        "📘 [¿No sabes el valor de tu auto? Consulta el Libro Azul aquí.](https://www.libroazul.com.mx)",
+        "[🔎 ¿No sabes el valor? Consulta el Libro Azul.](https://www.libroazul.com.mx)",
         unsafe_allow_html=True
     )
     
-    if valor_auto < 10000 or valor_auto > 5000000:
-        st.warning("El valor ingresado parece poco común. Por favor verifica.")
-    
-    es_hibrido = st.checkbox("¿Tu auto es híbrido o eléctrico?", help="Vehículos híbridos o eléctricos pueden tener exención de tenencia.")
+    es_hibrido = st.checkbox("🔌 ¿Tu auto es híbrido o eléctrico?")
 
     return estado, anio_auto, valor_auto, es_hibrido
+
 
 def pedir_email():
     st.subheader("📩 Recibe un recordatorio anual")
