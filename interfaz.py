@@ -9,25 +9,23 @@ def mostrar_resultados(tenencia, refrendo, mensaje):
     if mensaje:
         st.info(mensaje)
 
-
 def entrada_usuario():
     estado = st.selectbox("Selecciona tu estado", [
         "CDMX", "Edo. de México", "Jalisco", "Nuevo León", "Querétaro", "Otro"
     ])
 
     anio_auto = st.number_input("¿De qué año es tu auto?", min_value=2000, max_value=2025, value=2020)
-
-    # Usamos columnas para poner el input y la leyenda en una línea
-    col1, col2 = st.columns([3, 2])
-    with col1:
-        valor_auto = st.number_input("Valor aproximado del auto (MXN)", min_value=10000, value=200000, step=1000)
-    with col2:
-        st.markdown(
-            'Si no conoces el valor puedes verlo [aquí](https://www.guiaautomotriz.mx/) 👈',
-            unsafe_allow_html=True
-        )
-
+    
+    valor_auto = st.number_input("Valor aproximado del auto (MXN)", min_value=10000, value=200000, step=1000)
+    st.markdown(
+        "[¿No sabes el valor de tu auto? Consulta el Libro Azul aquí.](https://www.libroazul.com.mx)",
+        unsafe_allow_html=True
+    )
+    
     es_hibrido = st.checkbox("¿Tu auto es híbrido o eléctrico?")
+
+    return estado, anio_auto, valor_auto, es_hibrido
+
 
     return estado, anio_auto, valor_auto, es_hibrido
 
