@@ -1,58 +1,77 @@
-def calcular_tenencia(estado, anio, valor, hibrido, es_nuevo=True):
+def calcular_tenencia(estado, anio, valor, hibrido):
     """
-    Calcula el monto de tenencia y refrendo dependiendo del estado, año, valor del vehículo,
-    si es híbrido o eléctrico y si el auto es nuevo o no.
-    
-    Args:
-        estado (str): Nombre del estado (e.g., "CDMX", "Edo. de México").
-        anio (int): Año del vehículo.
-        valor (float): Valor del vehículo en pesos.
-        hibrido (bool): Si el vehículo es híbrido o eléctrico.
-        es_nuevo (bool): Si el auto es nuevo (importante para aplicar el 3.1%).
-        
-    Returns:
-        tuple: (monto_tenencia, monto_refrendo, mensaje)
+    Calcula el monto de tenencia y refrendo de un vehículo en función del estado, año, valor y tipo.
+
+    Parámetros:
+        estado (str): Estado del vehículo ("CDMX", "Edo. de México", etc.)
+        anio (int): Año del vehículo
+        valor (float): Valor del vehículo en pesos mexicanos
+        hibrido (bool): True si el vehículo es híbrido o eléctrico
+
+    Retorna:
+        tupla: (tenencia, refrendo, mensaje explicativo)
     """
-    refrendo = 800  # Monto fijo del refrendo
+    refrendo = 800  # Costo base aproximado del refrendo
     tenencia = 0
     mensaje = ""
 
-    estado = estado.strip().lower()
-
-    if hibrido:
-        mensaje = "Exento de tenencia por ser vehículo híbrido o eléctrico."
-        return 0, refrendo, mensaje
-
-    if estado == "cdmx":
-        if es_nuevo and valor <= 613213:
-            tenencia = valor * 0.031
-            mensaje = "Tenencia calculada con tasa preferente del 3.1% para auto nuevo."
-        else:
-            # Suponemos una depreciación del 10% por año si no es nuevo
-            antiguedad = 2025 - anio
-            valor_depreciado = valor * (0.9 ** antiguedad)
-            tenencia = valor_depreciado * 0.03
-            mensaje = f"Tenencia calculada con depreciación para auto modelo {anio}."
-
-        # Posible exención por subsidio si valor <= 250,000 y anio >= 2019
-        if valor <= 250000:
+    if estado == "CDMX":
+        if hibrido:
+            mensaje = "Vehículos híbridos o eléctricos están exentos de tenencia en CDMX, pero deben pagar refrendo."
+            return 0, refrendo, mensaje
+        elif valor <= 250000:
             mensaje = (
                 "Podrías ser exento de tenencia en CDMX si cumples con los requisitos administrativos: "
-                "ser persona física, sin adeudos, con tarjeta de circulación vigente, y pagar refrendo a tiempo."
+                "ser persona física, sin adeudos, tarjeta de circulación vigente y pagar refrendo antes del 31 de marzo."
             )
             return 0, refrendo, mensaje
+        else:
+            tenencia = valor * 0.031  # 3.1% del valor del auto si no hay subsidio
+            mensaje = "Tenencia calculada como 3.1% del valor del vehículo por no cumplir con requisitos de subsidio en CDMX."
 
-
-    elif estado in ["edo. de méxico", "estado de méxico"]:
-        if anio >= 2021 and valor <= 400000:
-            mensaje = "Exento de tenencia por programa Tenencia Cero (Edomex)."
+    elif estado == "Edo. de México":
+        if hibrido:
+            mensaje = "Vehículos híbridos o eléctricos están exentos de tenencia en Edo. de México, pero deben pagar refrendo."
+            return 0, refrendo, mensaje
+        elif anio >= 2021 and valor <= 400000:
+            mensaje = (
+                "Podrías estar exento de tenencia en Edo. de México si cumples con los requisitos del programa Tenencia Cero."
+            )
             return 0, refrendo, mensaje
         else:
-            tenencia = valor * 0.035
-            mensaje = "Tenencia calculada con tasa del 3.5% para Edomex."
+            tenencia = valor * 0.035  # 3.5%
+            mensaje = "Tenencia calculada como 3.5% del valor del vehículo en Edo. de México."
 
     else:
-        tenencia = valor * 0.04
-        mensaje = f"Tenencia calculada con tasa general del 4% para estado: {estado.title()}."
+        # Regla general si no es CDMX ni EdoMex
+        tenencia = valor * 0.04  # 4% como aproximación
+        mensaje = "Tenencia estimada como 4% del valor del vehículo (valor aproximado para otros estados)."
 
     return round(tenencia, 2), round(refrendo, 2), mensaje
+
+
+def reporte_tenencia(estado, anio, valor, hibrido):
+    tenencia, refrendo, mensaje = calcular_tenencia(estado, anio, valor, hibrido)
+    
+    reporte = f"""
+---- Reporte de Tenencia Vehicular ----
+
+Estado: {estado}
+Año del vehículo: {anio}
+Valor del vehículo: ${valor:,.2f}
+Tipo: {"Híbrido/Eléctrico" if hibrido else "Convencional"}
+
+Resultado:
+- Tenencia a pagar: ${tenencia:,.2f}
+- Refrendo a pagar: ${refrendo:,.2f}
+
+Explicación:
+{mensaje}
+
+Notas:
+- El pago de tenencia debe realizarse entre enero y marzo de cada año.
+- El refrendo es un pago anual obligatorio, independiente de la tenencia.
+- En caso de subsidios o exenciones, sólo se paga el refrendo.
+- Este cálculo es aproximado y puede variar según disposiciones oficiales.
+"""
+    return reporte.strip()
