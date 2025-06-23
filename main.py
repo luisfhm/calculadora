@@ -1,6 +1,6 @@
 import streamlit as st
 from interfaz import entrada_usuario, mostrar_resultados, pedir_email
-from calculos import calcular_tenencia, reporte_tenencia  # Importa también la función reporte_tenencia
+from tramites.tenencia import calcular_tenencia, reporte_tenencia  # Importa también la función reporte_tenencia
 import random
 
 st.set_page_config(page_title="Calculadora de Tenencia 2025", page_icon="🚗")
